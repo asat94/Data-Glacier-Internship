@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Titanic Survival Prediction</title>
+</head>
+<body>
+    <h1>Titanic Survival Prediction</h1>
+    <p>Enter passenger details to predict survival:</p>
+    <form id="predictionForm">
+        <label for="Pclass">Pclass:</label><input type="number" id="Pclass" name="Pclass"><br><br>
+        <label for="Age">Age:</label><input type="number" id="Age" name="Age"><br><br>
+        <label for="Sex">Sex (0 for female, 1 for male):</label><input type="number" id="Sex" name="Sex"><br><br>
+        <label for="Fare">Fare:</label><input type="number" id="Fare" name="Fare"><br><br>
+        <button type="button" onclick="predictSurvival()">Predict</button>
+    </form>
+
+    <div id="predictionResult"></div>
+
+    <script>
+        function predictSurvival() {
+            const form = document.getElementById('predictionForm');
+            const Pclass = form.Pclass.value;
+            const Age = form.Age.value;
+            const Sex = form.Sex.value;
+            const Fare = form.Fare.value;
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Pclass: parseInt(Pclass),
+                    Age: parseFloat(Age),
+                    Sex: parseInt(Sex),
+                    Fare: parseFloat(Fare)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').innerText = 'Prediction: ' + data.prediction;
+            });
+        }
+    </script>
+</body>
+</html>
