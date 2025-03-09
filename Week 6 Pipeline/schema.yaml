@@ -1,0 +1,9 @@
+columns:
+- title
+- ingredients
+- directions
+- link
+- source
+- NER
+- site
+separator: ','
